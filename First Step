@@ -1,1 +1,15 @@
 # creare un buffer intorno ad un punto: quanta superficie di terreno è disponinile?
+
+#librerie utilizzate
+
+library(raster) # raster data
+library(rgdal)
+
+library(rgeos) #funzione gBuffer #vector data
+
+#crop and mask functions
+## mask: create a new raster: requires x-y locations of point 
+#cellsStats function (raster packages) --> sum the amount of forest cover
+#rasterize : convert buffer into a raster layer : computationally quicker 
+
+#spatialEco : calculate landascape metric surrounding points 
