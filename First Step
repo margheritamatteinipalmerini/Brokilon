@@ -1,11 +1,15 @@
 # creare un buffer intorno ad un punto: quanta superficie di terreno è disponinile?
 
-#librerie utilizzate
+#set working directory
+setwd("~/dati/DATA-CLCRASTER")
 
+#librerie utilizzate
 library(raster) # raster data
 library(rgdal)
 
-library(rgeos) #funzione gBuffer #vector data
+# caricare dati
+
+CLC <- raster("U2018_CLC2018_V2020_20u1")
 
 #crop and mask functions
 ## mask: create a new raster: requires x-y locations of point 
