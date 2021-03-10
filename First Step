@@ -21,7 +21,7 @@ plot(clc)
  zoom(clc, ext=extension)
  
 clcItaly <- crop(clc, extension)
-plot(clcItaly, zlim=c(0,250))
+plot(clcItaly)
  
 
 
