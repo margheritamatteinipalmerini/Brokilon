@@ -9,7 +9,23 @@ library(rgdal)
 
 # caricare dati
 
-CLC <- raster("U2018_CLC2018_V2020_20u1")
+clc <- raster("U2018_CLC2018_V2020_20u1.tif.ovr")
+
+#informazioni
+clc
+
+plot(clc)
+ 
+ # Europa: facciamo uno zoom sull'Italia
+ extension <- c(14800,21500,500,10000)
+ zoom(clc, ext=extension)
+ 
+clcItaly <- crop(clc, extension)
+plot(clcItaly, zlim=c(0,250))
+ 
+
+
+
 
 #crop and mask functions
 ## mask: create a new raster: requires x-y locations of point 
