@@ -6,6 +6,8 @@ setwd("~/dati/DATA-CLCRASTER")
 #librerie utilizzate
 library(raster) # raster data
 library(rgdal)
+library(rasterVis)
+
 
 # caricare dati
 
@@ -34,9 +36,19 @@ levels(clcItaly) #NULL
 levels(factclcItaly)
 
 #45 livelli
+land_cover <- levels(factItaly)
+
+
+land_cover[,"landcover"] <- c ("artificial surface", "artificial surface", "artificial surface", "artificial surface", "artificial surface", "artificial surface", "artificial surface", "artificial surface","artificial surface","artificial surface","artificial surface",
+"agricultural ares", "agricultural ares", "agricultural ares", "agricultural ares", "agricultural ares", "agricultural ares", "agricultural ares", "agricultural ares", "agricultural ares", "agricultural ares", "agricultural ares",
+"forest", "forest", "forest", "shrub and herbaceous association", "shrub and herbaceous association", "shrub and herbaceous association" , "shrub and herbaceous association", "no o little vegetation", "no o little vegetation", "no o little vegetation", "no o little vegetation", "no o little vegetation", "inland wetlands", "inland wetlands", "coastal wetland", "coastal wetlands", "coastals wetlands", "inland waters","inland waters", "marine waters", "marine waters", "marine waters", "nodata")
+
+
+
 
 #buffer 
-## buffer: 250m, 500m, 1000, 1km, 2km, 2,5 km. 
+## buffer: 250m, 500m, 1000, 1km, 2km, 2,5 km.  land_cover <- levels(factItaly)
+
 buf250m <- 250
 buffer.250m <- buffer(clcItaly, width=buf250m)
 
