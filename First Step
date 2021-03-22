@@ -31,9 +31,7 @@ plot(clcItaly)
 # è un fattore?
 is.factor(clcItaly)
 # trasformare in fattore 
-
-
-factclcItaly <- as.factor(clcItaly) #convert to factor
+factclcItaly <- as.factor(clcItaly) 
 levels(clcItaly) #NULL
 levels(factclcItaly)
 
@@ -58,5 +56,25 @@ buffer.2500 <- buffer(clcItaly, width=buf2500)
 
 #### decisamente no
 
+> forest <- factclcItaly
+> values(forest) <- 0
+> forest [factclcItaly==23 | factclcItaly==24 | factclcItaly==25] <- 1
+
+
+ land_cover <- levels(factclcItaly) [[1]]
+> land_cover [,"landcover"] <- c ("broad leaved forest", "coniferous forest", "mixed forest") 
+> levels(factclcItaly) <- land_cover
+> plot(factclcItaly)
+
+> clc.cat <- unique (factclcItaly)
+>
+> clc.cat.for <- c(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)
+> reclass <- cbind(clc.cat, clc.cat.for)
+> clc.forest <- reclassify(factclcItaly, reclass)
+> plot(clc.forest)
+
+
+> buf250m <- 250
+>
 
 
