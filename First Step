@@ -56,6 +56,8 @@ buffer.2500 <- buffer(clcItaly, width=buf2500)
 
 #### decisamente no
 
+
+## tentativi di rinominare le classi per concentrarsi sulle foreste (ID 23-25)
 > forest <- factclcItaly
 > values(forest) <- 0
 > forest [factclcItaly==23 | factclcItaly==24 | factclcItaly==25] <- 1
@@ -75,6 +77,5 @@ buffer.2500 <- buffer(clcItaly, width=buf2500)
 
 
 > buf250m <- 250
->
-
-
+> buffer.250m <- buffer(clc.forest, width=buf250m)
+### stesso risultato 
