@@ -1,81 +1,28 @@
-# creare un buffer intorno ad un punto: quanta superficie di terreno è disponinile?
 
-#set working directory
-setwd("~/dati/DATA-CLCRASTER")
 
-#librerie utilizzate
-library(raster)
-library(rgdal)
+############################################################################################################################################
+## Kernel Density: quanta area disponibile lontano da centru urbani?
+
+> setwd("~/dati/DATA-CLCRASTER")
+> library(raster)
+> library(rgdal)
+library(spatstat)
 library(rasterVis)
 
 
-# caricare dati
-
 clc <- raster("U2018_CLC2018_V2020_20u1.tif.ovr")
-
-#informazioni
-clc
-
+> clc
 plot(clc)
- 
- # Europa: facciamo uno zoom sull'Italia
- extension <- c(14800,21500,500,10000)
- zoom(clc, ext=extension) #solo per controllare
- 
+extension <- c(14800,21500,500,10000)
 clcItaly <- crop(clc, extension)
+
 clcItaly
 summary(clcItaly)
 plot(clcItaly)
- 
-
-# è un fattore?
-is.factor(clcItaly)
-# trasformare in fattore 
-factclcItaly <- as.factor(clcItaly) 
-levels(clcItaly) #NULL
-levels(factclcItaly)
-
-#45 livelli
-#ID 
-
-#rinominare le ID
-land_cover[,"ID"] <- c ( “Continuous urban fabric”, “Discontinuous urban fabric”, “Industrial or commercial units”, “Road and rail networks and associated land”, “Port areas”, “Airports”, “Mineral extraction sites”, “Dump sites”, “Construction sites”, “Green urban areas”, “Sport and leisure facilities”, “Non-irrigated arable land”, “Permanently irrigated land”, “Rice fields”, “Vineyards”, “Fruit trees and berry plantations”, “Olive groves”, “Pastures”,  “Annual crops associated with permanent crops”, “Complex cultivation patterns”, “Land principally occupied by agriculture with significant areas of natural vegetation”, “Agro-forestry areas”, “Broad-leaved forest”, “Coniferous forest”, “Mixed forest”, “Natural grasslands”, “Moors and heathland”, “Sclerophyllous vegetation”, “Transitional woodland-shrub”,  “Beaches dunes sands”, “Bare rocks”, “Sparsely vegetated areas”, “Burnt areas”, “Glaciers and perpetual snow”, “Inland marshes”, “Peat bogs”, “Salt marshes”, “Salines”, “Intertidal flats”, “Water courses”, “Water bodies”, “Coastal lagoons”, “Estuaries”, “Sea and ocean”, “NODATA”)
-land_cover[,"landcover"] <- c ( “Continuous urban fabric”, “Discontinuous urban fabric”, “Industrial or commercial units”, “Road and rail networks and associated land”, “Port areas”, “Airports”, “Mineral extraction sites”, “Dump sites”, “Construction sites”, “Green urban areas”, “Sport and leisure facilities”, “Non-irrigated arable land”, “Permanently irrigated land”, “Rice fields”, “Vineyards”, “Fruit trees and berry plantations”, “Olive groves”, “Pastures”,  “Annual crops associated with permanent crops”, “Complex cultivation patterns”, “Land principally occupied by agriculture with significant areas of natural vegetation”, “Agro-forestry areas”, “Broad-leaved forest”, “Coniferous forest”, “Mixed forest”, “Natural grasslands”, “Moors and heathland”, “Sclerophyllous vegetation”, “Transitional woodland-shrub”,  “Beaches dunes sands”, “Bare rocks”, “Sparsely vegetated areas”, “Burnt areas”, “Glaciers and perpetual snow”, “Inland marshes”, “Peat bogs”, “Salt marshes”, “Salines”, “Intertidal flats”, “Water courses”, “Water bodies”, “Coastal lagoons”, “Estuaries”, “Sea and ocean”, “NODATA”)
-## unespected input
 
 
-#buffer 
-## buffer: 250m, 500m, 1000, 1km, 2km, 2.5 km.  
-
-buf250m <- 250
-buffer.250m <- buffer(clcItaly, width=buf250m)
 
 
-buf2500 <- 2500
-buffer.2500 <- buffer(clcItaly, width=buf2500)
-
-#### decisamente no
 
 
-## tentativi di rinominare le classi per concentrarsi sulle foreste (ID 23-25)
-> forest <- factclcItaly
-> values(forest) <- 0
-> forest [factclcItaly==23 | factclcItaly==24 | factclcItaly==25] <- 1
 
-
- land_cover <- levels(factclcItaly) [[1]]
-> land_cover [,"landcover"] <- c ("broad leaved forest", "coniferous forest", "mixed forest") 
-> levels(factclcItaly) <- land_cover
-> plot(factclcItaly)
-
-> clc.cat <- unique (factclcItaly)
->
-> clc.cat.for <- c(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)
-> reclass <- cbind(clc.cat, clc.cat.for)
-> clc.forest <- reclassify(factclcItaly, reclass)
-> plot(clc.forest)
-
-
-> buf250m <- 250
-> buffer.250m <- buffer(clc.forest, width=buf250m)
-### stesso risultato 
