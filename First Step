@@ -1,26 +1,91 @@
 
 
 ############################################################################################################################################
-## Kernel Density: quanta area disponibile lontano da centru urbani?
+## Kernel Density: quanta area disponibile lontano dai luoghi urbanizzati?
 
-> setwd("~/dati/DATA-CLCRASTER")
-> library(raster)
-> library(rgdal)
+setwd("~/dati/DATA-CLCRASTER")
+
+library(raster)
+library(rgeos)
 library(spatstat)
-library(rasterVis)
+library(gridExtra)
+library(RSAGA)
+###install.packages("spatialEco") ###0 results; library(spatialEco)
+
+clc <- raster("U2018_CLC2018_V2020_20u1.tif.ovr")
+clc
+plot(clc)
+setwd("~/dati/DATA-CLCRASTER")
+library(raster)
+library(rgeos)
+library(spatstat)
+library(gridExtra)
+###install.packages("spatialEco") ###0 results; library(spatialEco)
+library(RSAGA)
 
 
 clc <- raster("U2018_CLC2018_V2020_20u1.tif.ovr")
-> clc
+clc
 plot(clc)
-extension <- c(14800,21500,500,10000)
-clcItaly <- crop(clc, extension)
-
-clcItaly
-summary(clcItaly)
-plot(clcItaly)
 
 
+## zoom sull'Italia
+ extension <- c(14800,21500,1800,9500)
+ clcItaly <- crop(clc, extension) 
+
+ 
+ clcItaly 
+ summary(clcItaly)
+  head(factclcItaly)
+ plot(clcItaly)
+
+#### trasformo in fattore per vedere i livelli
+ factclcItaly <- as.factor(clcItaly) 
+ summary(factclcItaly)
+ head(factclcItaly)
+ levels(factclcItaly) 
+
+ 
+ ### 45 livelli
+ #1-11: urban, 12-22: agricolture, 23-35 :foreste
+
+## annullo i valori che non sono urbani o agricoltura
+valori <- c(1,11,1,
+            12,22,2,
+            23,45,NA)
+valori <- matrix(valori, ncol=3, byrow = T )
+
+urbanizzato <- reclassify(factclcItaly, valori)
+urban <- reclassify(clcItaly, valori) ## forse posso anche evitare di usare il dato trasformato in fattore?
+plot(urban)
+plot(urbanizzato)
+## sembra uscire lo stesso risultato
+######
+
+### provo a fare il contrario, annullo trutto tranne i livelli forestali
+valorif <- c(1,22,NA,
+             23,35,1,
+             36,46,NA)
+
+valorif <- matrix(valorif,ncol=3,byrow = T)
+foreste <- reclassify(factclcItaly, valorif)
+
+plot(foreste)
+
+
+
+###mappa di densità 
+dens <- density(urbanizzato) 
+plot(dens)
+
+ ### creiamo un poligono
+### urban.poly <- rasterToPolygons(urbanizzato, dissolve = T) ## si abortisce la sessione
+
+############
+urb_p <- rasterToPoints(urban)
+urba_p <- rasterToPoints(urbanizzato)
+
+## mappa di densità Kerneò
 
 
 
